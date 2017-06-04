@@ -1,5 +1,14 @@
 # piano
 Piano is tiny language for describing musical sequences in textual format
+## Getting Started
+### Running the program
+```
+cd com.nizhawan.nitin.piano.parser
+mvn clean install
+java -jar target/com.nizhawan.nitin.piano.parser-1.0.0-SNAPSHOT.jar src/test/resources/furelise.txt
+```
+Above will play program in furelise.txt
+
 ## Notes
 In piano system, notes are denotes by alphabets A to G. Also '#' is used to denote sharp and 'b' is used to denote flats as usual.
 A single digit following note is used to denote octave and number followed that is used to denote note length
