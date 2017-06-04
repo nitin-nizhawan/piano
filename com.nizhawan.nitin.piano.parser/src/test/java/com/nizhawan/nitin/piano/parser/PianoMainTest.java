@@ -3,6 +3,7 @@ package com.nizhawan.nitin.piano.parser;
 import com.nizhawan.nitin.PianoLexer;
 import com.nizhawan.nitin.PianoParser;
 import com.nizhawan.nitin.piano.SampleGenerator;
+import com.nizhawan.nitin.piano.SamplePlayer;
 import com.nizhawan.nitin.piano.SimpleSineGenerator;
 import com.nizhawan.nitin.piano.parser.ast.AntlrPianoListener;
 import com.nizhawan.nitin.piano.parser.ast.Program;
@@ -47,12 +48,24 @@ public class PianoMainTest
         return new TestSuite( PianoMainTest.class );
     }
 
+    public void testASTGenerator() throws  Exception {
+       // String programStr = " #comment abc \n abcd+=[A#45 { B45} ]main+=[A34 abcd ]";
+       InputStream is = this.getClass().getResourceAsStream("/furelise.txt");
+       String  programStr = IOUtils.toString(is, "UTF-8");
+        ASTGenerator astGenerator = new ASTGenerator(programStr);
+        Program program = astGenerator.getProgram();
+        ASTProcessor processor = new ASTProcessor();
+        int [] samples = processor.programToSamples(program);
+         //processor.compile(programStr,new File("tmp.samples"));
+        SamplePlayer.play(samples);
+        //System.out.println(program+"");
+    }
     /**
      * Rigourous Test :-)
      */
    public void testComptine() throws Exception {
-       InputStream is = this.getClass().getResourceAsStream("/comptine.txt");
+       /*InputStream is = this.getClass().getResourceAsStream("/comptine.txt");
        String noteSentence  = IOUtils.toString(is, "UTF-8");
-       Parser.compile(noteSentence,new File("tmp.samples"));
+       Parser.compile(noteSentence,new File("tmp.samples"));*/
    }
 }
