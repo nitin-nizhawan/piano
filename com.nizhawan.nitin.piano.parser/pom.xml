@@ -43,6 +43,17 @@
   <build>
     <plugins>
       <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+          <manifest>
+            <addClasspath>true</addClasspath>
+            <mainClass>com.nizhawan.nitin.piano.parser.PianoMain</mainClass>
+          </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.0</version>

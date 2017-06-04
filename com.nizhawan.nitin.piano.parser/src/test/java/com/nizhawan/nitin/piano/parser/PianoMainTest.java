@@ -50,14 +50,14 @@ public class PianoMainTest
 
     public void testASTGenerator() throws  Exception {
        // String programStr = " #comment abc \n abcd+=[A#45 { B45} ]main+=[A34 abcd ]";
-       InputStream is = this.getClass().getResourceAsStream("/furelise.txt");
+       InputStream is = this.getClass().getResourceAsStream("/tumhiho.txt");
        String  programStr = IOUtils.toString(is, "UTF-8");
         ASTGenerator astGenerator = new ASTGenerator(programStr);
         Program program = astGenerator.getProgram();
         ASTProcessor processor = new ASTProcessor();
         int [] samples = processor.programToSamples(program);
          //processor.compile(programStr,new File("tmp.samples"));
-        SamplePlayer.play(samples);
+       // SamplePlayer.play(samples);
         //System.out.println(program+"");
     }
     /**

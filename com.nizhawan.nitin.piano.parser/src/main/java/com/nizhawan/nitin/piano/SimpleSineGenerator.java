@@ -10,7 +10,7 @@ public class SimpleSineGenerator implements SampleGenerator {
         this.samplesPerSecond = samplesPerSecond;
         this.volume = volume;
     }
-    @Override
+
     public int[] generate(double frequency, double duration) {
         int numSamples = (int) Math.round(duration*samplesPerSecond);
         int d [] = new int[numSamples];

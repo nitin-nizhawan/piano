@@ -1,0 +1,109 @@
+intromusicseq+=[
+  F48 G#48 C516 C#58 G#48 A#48 G416
+]
+
+intromusic+=[
+   intromusicseq
+   intromusicseq
+   intromusicseq
+   intromusicseq
+]
+
+sequence1+=[
+
+#hum tere bin ab reh nahi sakte
+
+C516 F516 D#58 D#58 C#58 C#58 C58 A#48 G#48 A#48 C#58 C516 C516
+
+
+#tere bina kya wajood mera
+A#416 A#48 G#48 A#416 A#48 G#48 G416 F48 D#48 F416
+
+]
+
+
+kyonkitumhiho+=[
+
+#kyon ki tum hi ho
+G#48 A#48 C516 G#48 A#416
+
+#ab tum hi ho
+G#48 A#48 C516 G#48 A#416
+
+#zindagi ab tum hi ho
+G416 A#48 G#416 G48 F48 G416 D#48 F416
+
+# ho ho ho chain bhi
+G48 G#48 A#48 C516 G#48 A#416
+
+#mera dard bhi
+G#48 A#48 C516 G#48 A#416
+
+#meri ashiqui
+G48 F48 G416 A#48 G#416
+
+#ab tum hi ho
+G48 F48 G416 D#48 F416
+
+]
+
+main+=[
+
+intromusic
+
+#hum tere bin ab reh nahi sakte
+#tere bina kya wajood mera
+sequence1
+
+intromusic
+
+#tujh se juda agar ho jayenge to
+#khud se hi ho jayenge juda
+#repeat sequence1
+sequence1
+
+
+#kyon ki tum hi ho sequence
+kyonkitumhiho
+
+#music
+
+#theme
+F58 G58 G#58 F58 G58 G#58 F58
+C58 C#516 C#58 C58 C#516
+
+
+D#58 F58 G58 D#58 F58 G58 D#58
+A#48 C516 C58 A#48 C516
+
+C#58 D#58 F58 C#58 D#58 F58
+C#68 C68 A#516
+A#58 G#58 A#58
+
+G58 G58 E58 E58 C68  
+C68 C#68 C616
+
+# tere liye hi jiya main
+F58 F58 D#58 F516 F58 G58 G58 D#58 D#58 C516
+
+#tu8ko jo yum de diya hai
+C58 C58 C#58 F516 F58 G58 G58 D#58 D#58 C516
+
+#teri wafa ne mujhko sambhala
+C#58 C#58 C58 C#516 C58 C#516 A#48 G#48 A#48 C#58 C516 C516
+
+#saare gamon se mujhko nikala
+C#58 C#58 C58 C#516 C58 C#516 C58 D#58 C#58 A#48 G#48 A#48 C#58 C516 C516
+
+# tere saath mera hai naseeb juda
+D#48 F48 F48 G48 G48 F48 G416 G48 C#58 C#58 C58 C58 A#48 C516 
+
+# tujhe paake adhoora na ra ha
+C58 F58 E58 F58 F58 C58 C58 A#48 A#48 A#48 G#48 A#48 G#48 G416
+
+
+#kyon ki tum hi ho sequence
+kyonkitumhiho
+
+
+]

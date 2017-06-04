@@ -164,7 +164,11 @@ public class ASTGenerator {
         List<NoteFragment> noteFragments = new ArrayList<NoteFragment>();
         while(currentChar != '}'){
             skipWhiteSpace();
+            parseComments();
+            skipWhiteSpace();
             NoteFragment nf = parseNoteFragment();
+            skipWhiteSpace();
+            parseComments();
             skipWhiteSpace();
             noteFragments.add(nf);
         }
@@ -177,7 +181,11 @@ public class ASTGenerator {
         List<NoteFragment> noteFragments = new ArrayList<NoteFragment>();
         while(currentChar != ']'){
             skipWhiteSpace();
+            parseComments();
+            skipWhiteSpace();
             NoteFragment nf = parseNoteFragment();
+            skipWhiteSpace();
+            parseComments();
             skipWhiteSpace();
             noteFragments.add(nf);
         }

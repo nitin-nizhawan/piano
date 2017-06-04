@@ -95,7 +95,7 @@ public class ASTProcessor {
         return finalSamples;
     }
     public static int flattenSample(Sample sample){
-        System.out.println("Sample to flatten "+sample);
+       // System.out.println("Sample to flatten "+sample);
         if(sample instanceof SingularSample){
             SingularSample singularSample = (SingularSample) sample;
             return singularSample.getValue();
