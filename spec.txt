@@ -1,0 +1,23 @@
+note->A|B|C|D|E|F|G|A#|C#|D#|F#|G#|Gb
+octaveOffset=[0-9]
+duration=[0-9]+
+noteliteral-><note><octaveOfset>?<duration>
+noteunit-><noteliteral>|<blockliteral>|<sequenceliteral>|ref
+blockliteral->{<noteunit>(\s noteunit)*}
+sequenceliteral->[<noteunit>(\s noteunit)*]
+ref->[a-z][a-z0-9]*
+refdef-><ref>+=<noteunit>
+refparams->ref={
+  octave:34
+}
+comment-><#>.*\n
+main+=[
+   {A14 DEF} 
+   B14 C12
+]
+
+main+={
+   
+}
+
+

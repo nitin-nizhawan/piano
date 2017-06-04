@@ -1,2 +1,5 @@
 example
 sound.wav
+target/
+*.iml
+.idea
