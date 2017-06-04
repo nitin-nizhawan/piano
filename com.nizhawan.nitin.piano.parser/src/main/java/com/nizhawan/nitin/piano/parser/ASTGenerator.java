@@ -131,7 +131,7 @@ public class ASTGenerator {
 
     private NoteLiteral parseNoteLiteral() {
         parseComments();
-        if(currentChar >='A' && currentChar <='G'){
+        if((currentChar >='A' && currentChar <='G') || currentChar == 'R'){
             String note = ""+currentChar;
             int octave = 0;
             int duration = 0;
