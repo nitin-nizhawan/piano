@@ -1,24 +1,18 @@
 package com.nizhawan.nitin.piano.parser;
 
-import com.nizhawan.nitin.PianoLexer;
-import com.nizhawan.nitin.PianoParser;
 import com.nizhawan.nitin.piano.CompositeSample;
 import com.nizhawan.nitin.piano.Sample;
 import com.nizhawan.nitin.piano.SampleGenerator;
 import com.nizhawan.nitin.piano.SingularSample;
-import com.nizhawan.nitin.piano.parser.ast.AntlrPianoListener;
 import com.nizhawan.nitin.piano.parser.ast.BlockLiteral;
 import com.nizhawan.nitin.piano.parser.ast.NoteFragment;
 import com.nizhawan.nitin.piano.parser.ast.NoteLiteral;
 import com.nizhawan.nitin.piano.parser.ast.Program;
 import com.nizhawan.nitin.piano.parser.ast.SequenceLiteral;
+import com.nizhawan.nitin.piano.parser.ast.VarRef;
 import com.nizhawan.nitin.piano.parser.ast.VariableDefinition;
 import com.nizhawan.nitin.piano.wav.generator.KarplusStrongGenerator;
 import com.nizhawan.nitin.piano.wav.generator.WavGenerator;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,9 +25,31 @@ import java.util.Stack;
  * Created by nitin on 04/06/17.
  */
 public class ASTProcessor {
-    Map<String,List<Sample>> symbolTable = new HashMap<String,List<Sample>>();
+    Map<String,VariableDefinition> symbolTable = new HashMap<String,VariableDefinition>();
+    Stack<Map<String,Integer>> scope = new Stack<Map<String,Integer>>();
     SampleGenerator sg;
 
+    private void enterScope(int octaveOffset,int noteLengthMultiplier){
+        Map<String,Integer> map = new HashMap<String, Integer>();
+        map.put("octaveOffset",octaveOffset);
+        map.put("noteLengthMultiplier",noteLengthMultiplier);
+        scope.push(map);
+    }
+    private int getCurrentOctaveOffset(){
+        if(scope.empty()){
+            return 0;
+        }
+        return scope.peek().get("octaveOffset");
+    }
+    private int getCurrentNoteLengthMultiplier(){
+        if(scope.empty()){
+            return 1;
+        }
+        return scope.peek().get("noteLengthMultiplier");
+    }
+    private void exitScope(){
+        scope.pop();
+    }
     public ASTProcessor(){
         int SAMPLES_PER_SECOND = 44100;
         int volume = 32000;
@@ -64,11 +80,12 @@ public class ASTProcessor {
         for(VariableDefinition variableDefinition : variableDefinitions){
             String varName = variableDefinition.getVarName();
             NoteFragment noteFragment = variableDefinition.getNoteFragment();
-            List<Sample> samples = noteFragmentToSamples(noteFragment);
-            symbolTable.put(varName,samples);
+            symbolTable.put(varName,variableDefinition);
         }
 
-        List<Sample> mainSamples = symbolTable.get("main");
+        VariableDefinition mainVarDef = symbolTable.get("main");
+        System.out.println("Variable definitions added");
+        List<Sample> mainSamples = noteFragmentToSamples(mainVarDef.getNoteFragment());
         System.out.println("Starting flatten Samples");
         return flattenSamples(mainSamples);
     }
@@ -80,7 +97,15 @@ public class ASTProcessor {
         } else if(noteFragment.getSequenceLiteral() != null){
             return sequenceLiteralToSamples(noteFragment.getSequenceLiteral());
         } else if(noteFragment.getVarRef() != null){
-            return symbolTable.get(noteFragment.getVarRef().getVarName());
+            VarRef varRef = noteFragment.getVarRef();
+            System.out.println("var Ref "+varRef.getNoteLengthMultiplier());
+            VariableDefinition varDef = symbolTable.get(varRef.getVarName());
+
+            enterScope(varRef.getOctaveOffset(),varRef.getNoteLengthMultiplier());
+            List<Sample> samples = noteFragmentToSamples(varDef.getNoteFragment());
+            System.out.println("Removing from scope"+getCurrentNoteLengthMultiplier());
+            exitScope();
+            return samples;
         } else {
             throw new IllegalStateException("Unexpected empty note fragment");
         }
@@ -191,11 +216,13 @@ public class ASTProcessor {
     public  List<Sample> noteLiteralToSamples(NoteLiteral noteLiteral){
         String musicalNote = noteLiteral.getNote();
         System.out.println("Octage "+noteLiteral.getOctave());
-        int octave = noteLiteral.getOctave();
+        int octave = noteLiteral.getOctave()+getCurrentOctaveOffset();
         double freq = Converter.noteToFrequency(musicalNote,octave);
         System.out.println("Freq "+freq);
         System.out.println("NoteLen " + noteLiteral.getDuration());
-        int length = noteLiteral.getDuration();
+        int multiplier = getCurrentNoteLengthMultiplier();
+        int length = noteLiteral.getDuration()* multiplier;
+        System.out.println("NoteLen After Multiplying " + length);
         double duration = Converter.duration(length);
         int samples1[]= sg.generate(freq,duration);
         List<Sample> samples = new ArrayList<Sample>();

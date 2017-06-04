@@ -9,8 +9,24 @@ public class VarRef {
     }
 
     String varName;
+    int octaveOffset = 0;
+
+    public int getNoteLengthMultiplier() {
+        return noteLengthMultiplier;
+    }
+
+    public int getOctaveOffset() {
+        return octaveOffset;
+    }
+
+    int noteLengthMultiplier = 1;
     public VarRef(String varName){
         this.varName = varName;
+    }
+    public VarRef(String varName,int octaveOffset,int noteLengthMultiplier){
+        this(varName);
+        this.octaveOffset = octaveOffset;
+        this.noteLengthMultiplier = noteLengthMultiplier;
     }
     public String toString(){
         return varName;

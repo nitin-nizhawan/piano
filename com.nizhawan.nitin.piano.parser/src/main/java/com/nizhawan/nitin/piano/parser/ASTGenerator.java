@@ -124,9 +124,53 @@ public class ASTGenerator {
     private boolean isNumber(){
         return currentChar >= '0' && currentChar <='9';
     }
+    private int parseInteger(){
+        System.out.println("Parsing integer");
+        skipWhiteSpace();
+        int value = 0;
+        if(isNumber()){
+            while(isNumber()&& !isEOF()){
+                value = value*10 + (currentChar - '0');
+                if(!isEOF()) readChar();
+            }
+        } else {
+            error("Expected number");
+        }
+        System.out.println("Integer value "+value);
+        return value;
+    }
     private VarRef parseVariableReference() {
-         String varName = parseVarName();
-        return new VarRef(varName);
+        // var name cannot begin with capital alphabet or number
+        if(currentChar() >= 'A' && currentChar() <= 'Z'){
+            error("Unexpected variable name starting with capital letter");
+        }
+        int startPos = pos;
+        while(currentChar() != '(' && !isWhiteSpace()){
+            readChar();
+        }
+        String varName = programStr.substring(startPos,pos);
+        skipWhiteSpace();
+        if(currentChar == '('){
+              match('(');
+
+              int octaveOffset = parseInteger();
+              skipWhiteSpace();
+              match(',');
+              skipWhiteSpace();
+              int noteLengthMultiplier = parseInteger();
+              skipWhiteSpace();
+
+              match(')');
+               System.out.println("parsed params "+octaveOffset+","+noteLengthMultiplier);
+            return new VarRef(varName,octaveOffset,noteLengthMultiplier);
+
+        } else {
+          return new VarRef(varName);
+        }
+
+
+
+
     }
 
     private NoteLiteral parseNoteLiteral() {
